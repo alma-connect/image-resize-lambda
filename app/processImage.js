@@ -5,7 +5,7 @@ var sharp = require('sharp');
 var smartcrop = require('smartcrop-sharp');
 var storage = require(config.STORAGE);
 const path = require('path');
-// var gm = require('gm');
+var gm = require('gm');
 
 const functionMapping = {
     'smartcrop': applySmartCrop,
@@ -27,36 +27,36 @@ function processImage(key, imageParams, processImageCallback) {
             console.log("Calling storage processor");
             storage.storage.getFile(imageParams.path, callback);
         },
+        function(image, callback) {
+            console.log("Check if GIF");
+            captureSpecificFrame(image, imageParams.page, path.basename(key), callback);
+        },
         // function(image, callback) {
-        //     console.log("Check if GIF");
-        //     captureSpecificFrame(image, imageParams.page, path.basename(key), callback);
+        //     console.log("Check orientation");
+        //     validateImageRotation(image, imageParams.auto_rotate, callback);
         // },
-        function(image, callback) {
-            console.log("Check orientation");
-            validateImageRotation(image, imageParams.auto_rotate, callback);
-        },
-        function(image, callback) {
-            console.log("Validating Crop Size");
-            validateImageCropSize(image, imageParams.size, callback);
-        },
-        function(image, cropSize, callback) {
-            // Process the image as per the process type
-            var cropFunction = getCropFunction(imageParams.processType);
-            if (cropFunction) {
-                console.log("Calling crop function for processType=", imageParams.processType);
-                cropFunction(image, imageParams.size, callback);
-            } else {
-                console.log("Crop function not found for the processType=", imageParams.processType, ". Raising Error");
-                callback({}); // call with err
-            }
-        },
-        function(data, fileInfo, callback) {
-            applyBlur(data, imageParams.blur, callback)
-        },
-        function(data, fileInfo, callback) {
+        // function(image, callback) {
+        //     console.log("Validating Crop Size");
+        //     validateImageCropSize(image, imageParams.size, callback);
+        // },
+        // function(image, cropSize, callback) {
+        //     // Process the image as per the process type
+        //     var cropFunction = getCropFunction(imageParams.processType);
+        //     if (cropFunction) {
+        //         console.log("Calling crop function for processType=", imageParams.processType);
+        //         cropFunction(image, imageParams.size, callback);
+        //     } else {
+        //         console.log("Crop function not found for the processType=", imageParams.processType, ". Raising Error");
+        //         callback({}); // call with err
+        //     }
+        // },
+        // function(data, fileInfo, callback) {
+        //     applyBlur(data, imageParams.blur, callback)
+        // },
+        function(data, callback) {
             // save file to S3
-            console.log("Saving file to storage", fileInfo);
-            storage.storage.saveFile(key.replace('/',''), data, fileInfo, callback);
+            console.log("Saving file to storage");
+            storage.storage.saveFile(key.replace('/',''), data, {format: "png"}, callback);
         },
     ], function(err, data) {
         if(err) {
@@ -71,7 +71,7 @@ function getCropFunction(cropType) {
 }
 
 function captureSpecificFrame(image, page, filename, callback){
-  gm(image, filename + "[" + (page-1) + "]").toBuffer("PNG", callback);
+  gm(image, filename + "[0]").toBuffer("JPG", callback);
 }
 
 function validateImageRotation(image, auto_rotate, callback) {

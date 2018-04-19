@@ -6,7 +6,7 @@ var lambda = require('./index.js');
 
 
 // Match the lambda behaviour to generate the file and then serve from the destination bucket
-app.use(express.static(config.DESTINATION_PATH));
+// app.use(express.static(config.DESTINATION_PATH));
 
 app.get('/favicon.ico', function(req, res) {
     res.send('');
@@ -33,4 +33,3 @@ app.get('*', function(req, res) {
 });
 
 app.listen(config.PORT);
-
