@@ -31,32 +31,32 @@ function processImage(key, imageParams, processImageCallback) {
             console.log("Check if GIF");
             captureSpecificFrame(image, imageParams.page, path.basename(key), callback);
         },
-        // function(image, callback) {
-        //     console.log("Check orientation");
-        //     validateImageRotation(image, imageParams.auto_rotate, callback);
-        // },
-        // function(image, callback) {
-        //     console.log("Validating Crop Size");
-        //     validateImageCropSize(image, imageParams.size, callback);
-        // },
-        // function(image, cropSize, callback) {
-        //     // Process the image as per the process type
-        //     var cropFunction = getCropFunction(imageParams.processType);
-        //     if (cropFunction) {
-        //         console.log("Calling crop function for processType=", imageParams.processType);
-        //         cropFunction(image, imageParams.size, callback);
-        //     } else {
-        //         console.log("Crop function not found for the processType=", imageParams.processType, ". Raising Error");
-        //         callback({}); // call with err
-        //     }
-        // },
-        // function(data, fileInfo, callback) {
-        //     applyBlur(data, imageParams.blur, callback)
-        // },
-        function(data, callback) {
+        function(image, callback) {
+            console.log("Check orientation");
+            validateImageRotation(image, imageParams.auto_rotate, callback);
+        },
+        function(image, callback) {
+            console.log("Validating Crop Size");
+            validateImageCropSize(image, imageParams.size, callback);
+        },
+        function(image, cropSize, callback) {
+            // Process the image as per the process type
+            var cropFunction = getCropFunction(imageParams.processType);
+            if (cropFunction) {
+                console.log("Calling crop function for processType=", imageParams.processType);
+                cropFunction(image, imageParams.size, callback);
+            } else {
+                console.log("Crop function not found for the processType=", imageParams.processType, ". Raising Error");
+                callback({}); // call with err
+            }
+        },
+        function(data, fileInfo, callback) {
+            applyBlur(data, imageParams.blur, callback)
+        },
+        function(data, fileInfo, callback) {
             // save file to S3
-            console.log("Saving file to storage");
-            storage.storage.saveFile(key.replace('/',''), data, {format: "png"}, callback);
+            console.log("Saving file to storage", fileInfo);
+            storage.storage.saveFile(key.replace('/',''), data, fileInfo, callback);
         },
     ], function(err, data) {
         if(err) {

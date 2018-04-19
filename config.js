@@ -2,7 +2,7 @@ require('dotenv').config();
 
 var config = {};
 
-config.PORT = process.env.PORT || 3000;
+config.PORT = process.env.PORT || 4000;
 
 // The storage should be specified w.r.t directory app
 config.STORAGE = process.env.STORAGE || './storages/s3Storage';
