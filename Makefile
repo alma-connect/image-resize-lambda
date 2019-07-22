@@ -11,10 +11,9 @@ package: image
 	docker run --rm --volume ${MAKE_FILE_DIR}/dist/build:/build amazonlinux:nodejs npm install --production
 
 dist: package
-	mkdir -p dist/lambda-package
-	cd dist/build && zip -FS -q -r ../lambda-package/lambda-package.zip *
+	cd dist/build && zip -FS -q -r ../../lambda-package.zip *
 
-clean_dist:
+clean_dist: dist
 	rm -r dist
 
 clean: clean_dist
