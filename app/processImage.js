@@ -1,5 +1,4 @@
 var async = require('async');
-var request = require('request');
 var config = require('../config.js');
 var sharp = require('sharp');
 var smartcrop = require('smartcrop-sharp');
