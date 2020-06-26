@@ -8,24 +8,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vikalpj/image-resize-lambda.git"
+    "url": "git+https://github.com/alma-connect/image-resize-lambda.git"
   },
   "author": "",
   "bugs": {
-    "url": "https://github.com/vikalpj/image-resize-lambda/issues"
+    "url": "https://github.com/alma-connect/image-resize-lambda/issues"
   },
-  "homepage": "https://github.com/vikalpj/image-resize-lambda#readme",
+  "homepage": "https://github.com/alma-connect/image-resize-lambda#readme",
   "dependencies": {
-    "async": "^2.6.0",
-    "dotenv": "^4.0.0",
+    "async": "^3.2.0",
+    "dotenv": "^8.2.0",
     "gm": "^1.23.1",
-    "mime-types": "^2.1.17",
-    "mkdirp": "^0.5.1",
-    "smartcrop": "^1.1.1",
-    "smartcrop-sharp": "^1.0.5"
+    "mime-types": "^2.1.27",
+    "mkdirp": "^1.0.4",
+    "smartcrop": "^2.0.3",
+    "smartcrop-sharp": "^2.0.3"
   },
   "devDependencies": {
-    "aws-sdk": "^2.168.0",
-    "express": "^4.16.2"
+    "aws-sdk": "^2.705.0",
+    "express": "^4.17.1"
   }
 }
