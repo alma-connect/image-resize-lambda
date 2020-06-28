@@ -218,7 +218,7 @@ function applyBlurredFrame(image, cropSize, callback) {
                         blurImg
                             .resize(cropSize.width, cropSize.height)
                             .blur(18)
-                            .overlayWith(data)
+                            .composite([{input: data}])
                             .toBuffer(callback);
                     }
                 });

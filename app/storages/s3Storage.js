@@ -25,15 +25,11 @@ function getFile(key, callback) {
 function saveFile(destKey, imageBufferData, fileInfo, saveFileCallBack) {
     var contentType = mime.lookup(fileInfo.format);
 
-    var fileExt = path.extname(destKey);
-    if(fileExt && fileExt == "pdf"){
-      contentType = "application/pdf";
-    }
-
     console.log("Saving file to s3. destKey=", destKey, " fileInfo=", fileInfo, ", contentType=", contentType);
     if (!contentType) {
-        contentType = mime.lookup(fileExt);
-        console.log("content type not found from fileInfo. using file Extension=", fileExt, ", contentType=", contentType);
+      var fileExt = path.extname(destKey);
+      contentType = mime.lookup(fileExt);
+      console.log("content type not found from fileInfo. using file Extension=", fileExt, ", contentType=", contentType);
     }
 
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property

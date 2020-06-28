@@ -1,32 +1,33 @@
 {
-  "name": "image-resize-lambda",
-  "version": "0.1.0",
-  "description": "A node package to resize images to be run on aws lambda",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/alma-connect/image-resize-lambda.git"
-  },
-  "author": "",
-  "bugs": {
-    "url": "https://github.com/alma-connect/image-resize-lambda/issues"
-  },
-  "homepage": "https://github.com/alma-connect/image-resize-lambda#readme",
-  "dependencies": {
-    "async": "^3.2.0",
-    "dotenv": "^8.2.0",
-    "gm": "^1.23.1",
-    "mime-types": "^2.1.27",
-    "mkdirp": "^1.0.4",
-    "sharp": "^0.25.4",
-    "smartcrop": "^2.0.3",
-    "smartcrop-sharp": "^2.0.3"
-  },
-  "devDependencies": {
-    "aws-sdk": "^2.705.0",
-    "express": "^4.17.1"
-  }
+    "name": "ac-staging-lambda",
+    "description": "A node package to resize images to be run on aws lambda",
+    "version": "0.0.1",
+    "main": "index.js",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/chaudhary/image-resize-lambda.git"
+    },
+    "author": "",
+    "bugs": {
+        "url": "https://github.com/chaudhary/image-resize-lambda/issues"
+    },
+    "homepage": "https://github.com/chaudhary/image-resize-lambda#readme",
+    "dependencies": {
+        "async": "^3.2.0",
+        "dotenv": "^8.2.0",
+        "gm": "^1.23.1",
+        "mime-types": "^2.1.27",
+        "mkdirp": "^1.0.4",
+        "sharp": "^0.25.4",
+        "smartcrop": "^2.0.3",
+        "smartcrop-sharp": "^2.0.3"
+    },
+    "devDependencies": {
+        "aws-sdk": "^2.705.0",
+        "express": "^4.17.1"
+    },
+    "scripts": {
+        "test": ""
+    }
 }
