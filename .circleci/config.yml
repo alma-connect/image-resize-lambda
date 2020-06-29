@@ -1,0 +1,75 @@
+version: 2
+jobs:
+  deploy:
+    docker:
+       - image: circleci/python:3.6.1
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+
+      - run:
+          name: clone deployment repo
+          command: |
+            git clone git@github.com:alma-connect/almaconnect-cloudformation.git  # clone only the last commit
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "almaconnect-cloudformation/requirements.txt" }}
+          - v1-dependencies-
+
+
+      - run:
+          name: install dependencies
+          command: |
+            pip install --user circleci virtualenv
+            PATH="$PATH:~/.local/bin" virtualenv ansible-venv
+            . ansible-venv/bin/activate
+            cd almaconnect-cloudformation && pip install -U -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./ansible-venv
+          key: v1-dependencies-{{ checksum "almaconnect-cloudformation/requirements.txt" }}
+
+      - run:
+          name: run deployment
+          command: |
+            . ansible-venv/bin/activate
+#            cd almaconnect-cloudformation && ansible-playbook create_services.yml -i hosts -vvv --extra-vars="almaconnect_repo_version=$CIRCLE_SHA1" --tags almaconnect-deploy
+            cd almaconnect-cloudformation && ansible-playbook create_services.yml -i hosts -vvv --tags lambda-deploy
+          timeout: 900
+
+#  test:
+#    docker:
+#       - image: circleci/python:3.6.1
+#    working_directory: ~/repo
+#
+#    steps:
+#      - checkout
+#
+#      - setup_remote_docker:
+#          docker_layer_caching: true
+#
+#      - run:
+#          name: run Rspec
+#          command: |
+#
+#          timeout: 900
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      # - test  # support for adding test for furtue. We can also remove whole workflow section as of now if not needed and move filter tag to jobs.
+#      - test
+      - deploy:
+          filters:
+            branches:
+              only:
+                - production
