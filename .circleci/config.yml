@@ -41,7 +41,6 @@ jobs:
           name: run deployment
           command: |
             . ansible-venv/bin/activate
-#            cd almaconnect-cloudformation && ansible-playbook create_services.yml -i hosts -vvv --extra-vars="almaconnect_repo_version=$CIRCLE_SHA1" --tags almaconnect-deploy
             cd almaconnect-cloudformation && ansible-playbook create_services.yml -i hosts -vvv --tags lambda-deploy
           timeout: 900
 
