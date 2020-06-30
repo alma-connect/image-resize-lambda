@@ -8,7 +8,9 @@ image:
 
 package: image
 	mkdir -p dist/build && cp -r app index.js config.js package.json package-lock.json dist/build/
+	ls ${MAKE_FILE_DIR}/dist/build
 	docker run --rm --volume ${MAKE_FILE_DIR}/dist/build:/build amazonlinux:nodejs npm install --production
+	ls ${MAKE_FILE_DIR}/dist/build
 
 dist: package
 	mkdir -p dist/lambda-package
