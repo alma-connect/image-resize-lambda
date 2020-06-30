@@ -4,7 +4,7 @@ MAKE_FILE_DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 all: package
 
 image:
-	docker build --tag amazonlinux:nodejs .
+	docker build --tag 12.18.1-buster .
 
 package: image
 	mkdir -p dist/build && cp -r app index.js config.js package.json package-lock.json dist/build/
