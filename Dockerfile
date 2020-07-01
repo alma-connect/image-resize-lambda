@@ -15,7 +15,8 @@ RUN yum -y install gcc-c++ zip && \
     rm --force ns.rpm \
     npm install
 
-COPY app index.js config.js package.json /build/
+COPY app /build/app/
+COPY index.js config.js package.json /build/
 WORKDIR /build
 
 RUN npm install
