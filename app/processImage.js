@@ -147,8 +147,7 @@ function applyCrop(image, cropSize, callback) {
 function applyCoverResize(image, cropSize, callback) {
     if (cropSize.widthPlus || cropSize.heightPlus || cropSize.width < cropSize.originalWidth || cropSize.height < cropSize.originalHeight) {
         sharp(image)
-            .resize(cropSize.width, cropSize.height)
-            .max()
+            .resize(cropSize.width, cropSize.height, {fit: 'contain'})
             .toBuffer(callback)
     } else {
         callback(null, image, {});
@@ -206,8 +205,7 @@ function applyBlurredFrame(image, cropSize, callback) {
                     .resize(cropSize.width, cropSize.height)
             } else if (resize_with_max) {
                 overlayImg
-                    .resize(cropSize.width, cropSize.height)
-                    .max()
+                    .resize(cropSize.width, cropSize.height, {fit: 'contain'})
             }
 
             overlayImg
