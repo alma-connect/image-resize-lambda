@@ -2,7 +2,7 @@ version: 2
 jobs:
   deploy:
     docker:
-       - image: circleci/python:3.6.1
+      - image: circleci/python:3.6.15
     working_directory: ~/repo
 
     steps:
@@ -10,7 +10,6 @@ jobs:
 
       - setup_remote_docker:
           docker_layer_caching: true
-
 
       - run:
           name: clone deployment repo
@@ -20,9 +19,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "almaconnect-cloudformation/requirements.txt" }}
-          - v1-dependencies-
-
+            - v1-dependencies-{{ checksum
+              "almaconnect-cloudformation/requirements.txt" }}
+            - v1-dependencies-
 
       - run:
           name: install dependencies
@@ -35,13 +34,15 @@ jobs:
       - save_cache:
           paths:
             - ./ansible-venv
-          key: v1-dependencies-{{ checksum "almaconnect-cloudformation/requirements.txt" }}
+          key: v1-dependencies-{{ checksum "almaconnect-cloudformation/requirements.txt"
+            }}
 
       - run:
           name: run deployment
           command: |
             . ansible-venv/bin/activate
-            cd almaconnect-cloudformation && ansible-playbook create_services.yml -i hosts -vvv --tags lambda-deploy
+            cd almaconnect-cloudformation && ansible-playbook create_services.yml -i hosts -vvv --extra-vars="almaconnect_repo_version=$CIRCLE_SHA1" --tags lambda-deploy
+          #            cd almaconnect-cloudformation && ansible-playbook create_services.yml -i hosts -vvv --tags lambda-deploy
           timeout: 900
 
 #  test:
@@ -60,13 +61,12 @@ jobs:
 #          command: |
 #
 #          timeout: 900
-
 workflows:
   version: 2
   build_and_test:
     jobs:
       # - test  # support for adding test for furtue. We can also remove whole workflow section as of now if not needed and move filter tag to jobs.
-#      - test
+      #      - test
       - deploy:
           filters:
             branches:
