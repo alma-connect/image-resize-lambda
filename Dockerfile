@@ -20,5 +20,7 @@ COPY app /build/app/
 COPY index.js config.js package.json /build/
 WORKDIR /build
 
+
+
 RUN npm install
 RUN zip -FS -q -r lambda-package.zip *
